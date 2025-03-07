@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:pfx="http://www.tibco.com/schemas/test/Shared Resources/Schemas/Schema.xsd" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:pfx2="http://www.tibco.com/schemas/test/Shared Resources/Schemas/Schema.xsd2" xmlns:pfx3="http://www.tibco.com/schemas/test/Shared Resources/Schemas/Schema.xsd3" xmlns:pfx4="http://xmlns.example.com/1741337476348" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <xsd:import namespace="http://www.tibco.com/schemas/test/Shared Resources/Schemas/Schema.xsd3" schemaLocation="/Shared Resources/Schemas/Fault.xsd"/>
+    <xsd:import namespace="http://www.tibco.com/schemas/test/Shared Resources/Schemas/Schema.xsd2" schemaLocation="/Shared Resources/Schemas/AddUserResponseSchema.xsd"/>
+    <xsd:import namespace="http://www.tibco.com/schemas/test/Shared Resources/Schemas/Schema.xsd" schemaLocation="/Shared Resources/Schemas/AddUserRequestSchema.xsd"/>
+    <wsdl:import namespace="http://xmlns.example.com/1741337476348" location="/Shared Resources/WSDLs/WSDL.wsdl"/>
+    <pd:name>Processes/AddUser.process</pd:name>
+    <pd:description>Process to Invoke End Service and Add User to Dir.</pd:description>
+    <pd:startName>Start</pd:startName>
+    <pd:startType wsMsgRef="pfx4:Request"/>
+    <pd:startX>152</pd:startX>
+    <pd:startY>62</pd:startY>
+    <pd:returnBindings>
+        <pfx4:Response>
+            <part1>
+                <pfx2:AddUserResponse>
+                    <pfx2:UserId>
+                        <xsl:value-of select="&quot;USR001&quot;"/>
+                    </pfx2:UserId>
+                </pfx2:AddUserResponse>
+            </part1>
+        </pfx4:Response>
+    </pd:returnBindings>
+    <pd:endName>End</pd:endName>
+    <pd:endType wsMsgRef="pfx4:Response"/>
+    <pd:endX>455</pd:endX>
+    <pd:endY>65</pd:endY>
+    <pd:errorSchemas>
+        <FaultSchema wsMsgRef="pfx4:Fault"/>
+    </pd:errorSchemas>
+    <pd:processVariables/>
+    <pd:targetNamespace>http://xmlns.example.com/1741338020078</pd:targetNamespace>
+    <pd:activity name="Map Data">
+        <pd:type>com.tibco.plugin.mapper.MapperActivity</pd:type>
+        <pd:resourceType>ae.activities.MapperActivity</pd:resourceType>
+        <pd:x>303</pd:x>
+        <pd:y>62</pd:y>
+        <config>
+            <element ref="pfx:AddUserRequest"/>
+        </config>
+        <pd:inputBindings>
+            <pfx:AddUserRequest>
+                <pfx:Users>
+                    <xsl:for-each select="$Start/pfx4:Request/part1/pfx:Users/pfx:User">
+                        <pfx:User>
+                            <xsl:if test="@Language">
+                                <xsl:attribute name="Language">
+                                    <xsl:value-of select="@Language"/>
+                                </xsl:attribute>
+                            </xsl:if>
+                            <pfx:UserName>
+                                <xsl:value-of select="pfx:UserName"/>
+                            </pfx:UserName>
+                            <xsl:for-each select="pfx:Name">
+                                <pfx:Name>
+                                    <pfx:FirstName>
+                                        <xsl:value-of select="pfx:FirstName"/>
+                                    </pfx:FirstName>
+                                    <xsl:if test="pfx:MiddleName">
+                                        <pfx:MiddleName>
+                                            <xsl:value-of select="pfx:MiddleName"/>
+                                        </pfx:MiddleName>
+                                    </xsl:if>
+                                    <pfx:LastName>
+                                        <xsl:value-of select="pfx:LastName"/>
+                                    </pfx:LastName>
+                                </pfx:Name>
+                            </xsl:for-each>
+                            <pfx:RoleID>
+                                <xsl:value-of select="pfx:RoleID"/>
+                            </pfx:RoleID>
+                            <xsl:for-each select="pfx:UserSkills">
+                                <pfx:UserSkills>
+                                    <xsl:copy-of select="*"/>
+                                </pfx:UserSkills>
+                            </xsl:for-each>
+                        </pfx:User>
+                    </xsl:for-each>
+                </pfx:Users>
+            </pfx:AddUserRequest>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>Map Data</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Map Data</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+</pd:ProcessDefinition>
