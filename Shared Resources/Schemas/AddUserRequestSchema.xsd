@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	 xmlns="http://www.tibco.com/schemas/test/Shared Resources/Schemas/Schema.xsd"
+	 targetNamespace="http://www.tibco.com/schemas/test/Shared Resources/Schemas/Schema.xsd"
+	 elementFormDefault="qualified"
+	 attributeFormDefault="unqualified">
+	<xs:element name="Users" type="UsersType"/>
+	<xs:complexType name="UsersType">
+		<xs:sequence>
+			<xs:element name="User" minOccurs="0" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:complexContent>
+						<xs:extension base="UserType">
+							<xs:attribute name="Language" type="xs:string"/>
+						</xs:extension>
+					</xs:complexContent>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="UserType">
+		<xs:all>
+			<xs:element name="UserName" type="xs:string"/>
+			<xs:element name="Name" type="NameType"/>
+			<xs:element name="RoleID" type="xs:int"/>
+			<xs:element name="UserSkills" type="UserSkillsType" minOccurs="0"/>
+		</xs:all>
+	</xs:complexType>
+	<xs:complexType name="UserSkillsType">
+		<xs:choice>
+			<xs:element name="SkillId" type="xs:string"/>
+			<xs:element name="SkillName" type="xs:string"/>
+		</xs:choice>
+	</xs:complexType>
+	<xs:element name="AddUserRequest" type="AddUserRequestType"/>
+	<xs:complexType name="AddUserRequestType">
+		<xs:sequence>
+			<xs:element ref="Users"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="NameType">
+		<xs:sequence>
+			<xs:element name="FirstName" type="xs:string"/>
+			<xs:element name="MiddleName" type="xs:string" minOccurs="0"/>
+			<xs:element name="LastName" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

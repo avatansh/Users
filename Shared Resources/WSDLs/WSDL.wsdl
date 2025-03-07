@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:ns="http://www.tibco.com/schemas/test/Shared Resources/Schemas/Schema.xsd" xmlns:tns="http://xmlns.example.com/1741337476348" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ns2="http://www.tibco.com/schemas/test/Shared Resources/Schemas/Schema.xsd2" xmlns:ns3="http://www.tibco.com/schemas/test/Shared Resources/Schemas/Schema.xsd3" targetNamespace="http://xmlns.example.com/1741337476348">
+    <import namespace="http://www.tibco.com/schemas/test/Shared Resources/Schemas/Schema.xsd" location="../Schemas/AddUserRequestSchema.xsd"/>
+    <import namespace="http://www.tibco.com/schemas/test/Shared Resources/Schemas/Schema.xsd2" location="../Schemas/AddUserResponseSchema.xsd"/>
+    <import namespace="http://www.tibco.com/schemas/test/Shared Resources/Schemas/Schema.xsd3" location="../Schemas/Fault.xsd"/>
+    <message name="Request">
+        <part name="part1" element="ns:Users"/>
+    </message>
+    <message name="Response">
+        <part name="part1" element="ns2:AddUserResponse"/>
+    </message>
+    <message name="Fault">
+        <part name="part1" element="ns3:Error"/>
+    </message>
+    <portType name="User">
+        <operation name="AddUser">
+            <input message="tns:Request"/>
+            <output message="tns:Response"/>
+            <fault name="fault1" message="tns:Fault"/>
+        </operation>
+    </portType>
+</definitions>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	 xmlns="http://www.tibco.com/schemas/test/Shared Resources/Schemas/Schema.xsd2"
+	 targetNamespace="http://www.tibco.com/schemas/test/Shared Resources/Schemas/Schema.xsd2"
+	 elementFormDefault="qualified"
+	 attributeFormDefault="unqualified">
+	<xs:element name="AddUserResponse" type="AddUserResponseType"/>
+	<xs:complexType name="AddUserResponseType">
+		<xs:sequence>
+			<xs:element name="UserId" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>
